@@ -1,11 +1,13 @@
 #include "fractol.h"
 
+#define MAX_ITER 300
+
 static int mandelbrot_iter(t_complex c)
 {
     t_complex z = {0, 0};
     int i = 0;
 
-    while (i < 100)
+    while (i < MAX_ITER)
     {
         z = c_mul(z, z);
         z = c_add(z, c);
@@ -16,36 +18,46 @@ static int mandelbrot_iter(t_complex c)
     return i;
 }
 
-t_complex pixel_to_complex(int x, int y)
+t_complex mapping(int x, int y, t_complex center, double zoom)
 {
     t_complex c;
-    c.re = (double)x / X_MAX * 3.5 - 2.5; // map to [-2.5, 1.0]
-    c.im = (double)y / Y_MAX * 2.0 - 1.0; // map to [-1.0, 1.0]
+    c.re = (x - X_MAX / 2.0) * zoom + center.re;
+    c.im = (y - Y_MAX / 2.0) * zoom + center.im;
     return c;
 }
 
-void	draw_mandelbrot(t_img *img)
+int get_color_cosmic(int iter)
 {
-	int x;
-	int y;
-	t_complex c;
-	int color;
+    if (iter == MAX_ITER)
+        return 0x000000;
 
-	x = 0;
-	y = 0;
-	while (y < Y_MAX)
-	{
-		while (x < X_MAX)
-		{
-			c = pixel_to_complex(x, y);
-			if (mandelbrot_iter(c) == 100)
-				color = 0x000000;
-			else
-				color = 0xFFFFFF;
-			my_mlx_pixel_put(img, x, y, color);
-			x++;
-		}
-		x=0;
-		y++;
-	}
+    double t = (double)iter / MAX_ITER;
+    int r = (int)(255 * pow(t, 0.3));
+    int g = (int)(128 * pow(t, 1.0));
+    int b = (int)(32  * pow(t, 3.0));
+
+    return (r << 16) | (g << 8) | b;
+}
+
+void draw_mandelbrot(t_img *img)
+{
+    t_complex center = {-0.75, 0.0}; // nice central view
+    double zoom = 0.003;              // smaller = zoom in
+    int x, y, iter, color;
+    t_complex c;
+
+    y = 0;
+    while (y < Y_MAX)
+    {
+        x = 0;
+        while (x < X_MAX)
+        {
+            c = mapping(x, y, center, zoom);
+            iter = mandelbrot_iter(c);
+            color = get_color_cosmic(iter);
+            my_mlx_pixel_put(img, x, y, color);
+            x++;
+        }
+        y++;
+    }
 }

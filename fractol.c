@@ -58,6 +58,12 @@ t_fractal	*parse_fractal(char **argv)
 		(f->c)->re = ft_atof(argv[2]);
 		(f->c)->im = ft_atof(argv[3]);
 	}
+	else if (ft_strcmp(argv[1], "burningship") == 0)
+	{
+		f->name = "burningship";
+		(f->c)->re = 0;
+		(f->c)->im = 0;
+	}
 	else
 	{
 		free_fractal(f);
@@ -124,8 +130,6 @@ int	check_input(int argc, char **argv)
 			return (1);
 	}
 	if (argc == 2 && ft_strcmp(argv[1], "burningship") == 0)
-		return (0);
-	if (argc == 2 && ft_strcmp(argv[1], "tricorn") == 0)
 		return (0);
 	return (1);
 }

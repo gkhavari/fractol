@@ -28,7 +28,7 @@ void	draw_julia(t_img *img, t_complex c)
 		x = 0;
 		while (x < X_MAX)
 		{
-			z = pixel_to_complex(x, y);
+			z = mapping(x, y);
 			iter = julia_iter(z, c);
 			if (iter == 100)
 				color = 0x000000;

@@ -6,6 +6,9 @@
 # include <math.h>
 # include <unistd.h>
 
+# define X_MAX 1920
+# define Y_MAX 1080
+
 typedef struct s_img
 {
 	void	*img;
@@ -14,12 +17,6 @@ typedef struct s_img
 	int		line_length;
 	int		endian;
 }	t_img;
-
-typedef enum e_dim
-{
-	X_MAX = 1920,
-	Y_MAX = 1080
-}	t_dim;
 
 typedef struct s_complex
 {
@@ -34,7 +31,7 @@ typedef struct s_fractal
 } t_fractal;
 
 void	ft_putstr_fd(char *s, int fd);
-t_complex pixel_to_complex(int x, int y);
+t_complex mapping(int x, int y, t_complex center, double zoom);
 void	draw_mandelbrot(t_img *img);
 void	draw_julia(t_img *img, t_complex c);
 t_complex c_add(t_complex a, t_complex b);
