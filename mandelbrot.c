@@ -1,7 +1,5 @@
 #include "fractol.h"
 
-#define MAX_ITER 300
-
 static int mandelbrot_iter(t_complex c)
 {
     t_complex z = {0, 0};
@@ -26,7 +24,7 @@ t_complex mapping(int x, int y, t_complex center, double zoom)
     return c;
 }
 
-int get_color_cosmic(int iter)
+int color_fire(int iter)
 {
     if (iter == MAX_ITER)
         return 0x000000;
@@ -39,7 +37,7 @@ int get_color_cosmic(int iter)
     return (r << 16) | (g << 8) | b;
 }
 
-void draw_mandelbrot(t_img *img)
+void draw_mandelbrot(t_img *img, t_fractal f)
 {
     t_complex center = {-0.75, 0.0}; // nice central view
     double zoom = 0.003;              // smaller = zoom in
@@ -54,7 +52,7 @@ void draw_mandelbrot(t_img *img)
         {
             c = mapping(x, y, center, zoom);
             iter = mandelbrot_iter(c);
-            color = get_color_cosmic(iter);
+            color = (f.color)(iter);
             my_mlx_pixel_put(img, x, y, color);
             x++;
         }

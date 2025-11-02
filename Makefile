@@ -1,6 +1,6 @@
 NAME    = fractol
 
-SRCS    = fractol.c utils.c mandelbrot.c julia.c burningship.c
+SRCS    = fractol.c utils.c mandelbrot.c
 OBJS    = $(SRCS:.c=.o)
 
 CC      = cc

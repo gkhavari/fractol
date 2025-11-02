@@ -21,6 +21,7 @@ void	draw_julia(t_img *img, t_complex c)
 	t_complex z;
 	int iter;
 	int color;
+	t_complex center = {0, 0};
 
 	y = 0;
 	while (y < Y_MAX)
@@ -28,7 +29,7 @@ void	draw_julia(t_img *img, t_complex c)
 		x = 0;
 		while (x < X_MAX)
 		{
-			z = mapping(x, y);
+			z = mapping(x, y, center, 1.0);
 			iter = julia_iter(z, c);
 			if (iter == 100)
 				color = 0x000000;
