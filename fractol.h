@@ -9,6 +9,29 @@
 # define X_MAX 1920
 # define Y_MAX 1080
 # define MAX_ITER 300
+//# define M_PI 3.14159265358979323846
+
+#define ESC 65307
+
+# define MANDELBROT 1
+# define JULIA 2
+# define BURNING_SHIP 3
+
+# define COSMOS 7
+# define FIRE 8
+# define TRIPPY 9
+
+typedef struct s_pixel
+{
+	int	x;
+	int	y;
+}	t_pixel;
+
+typedef struct s_complex
+{
+    double re;
+    double im;
+} t_complex;
 
 typedef struct s_img
 {
@@ -19,33 +42,23 @@ typedef struct s_img
 	int		endian;
 }	t_img;
 
-typedef struct s_complex
-{
-    double re;
-    double im;
-} t_complex;
-
 typedef struct s_fractal
 {
 	void (* draw)(t_fractal *f);
 	int (* get_color)(int iter, int max_iter);
 	int max_iter;
 	double	zoom;
-	t_complex	*center;
-    t_complex   *c;
     double  escape_radius;
+    t_complex   min;
+	t_complex	max;
 //    int     color_scheme;
 } t_fractal;
 
 typedef struct s_app_state {
-    t_img       mlx;
-    t_fractal   fractal;
-    int         width;
-    int         height;
-    t_complex   min;
-	t_complex	max;
-//    int         color_scheme;
-//    bool        julia_follow_mouse;
+	void		*mlx;
+	void		*win;
+	t_img		image;
+	t_fractal	fractal;
 }   t_app_state;
 
 void	ft_putstr_fd(char *s, int fd);
