@@ -1,6 +1,6 @@
 NAME    = fractol
 
-SRCS    = fractol.c utils.c mandelbrot.c
+SRCS    = main.c init.c utils.c utils_libft.c event_handler.c draw_fractal.c fractals.c color.c
 OBJS    = $(SRCS:.c=.o)
 
 CC      = cc

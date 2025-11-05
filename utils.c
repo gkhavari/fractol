@@ -1,76 +1,82 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gkhavari <gkhavari@student.42vienna.c      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/05 17:36:09 by gkhavari          #+#    #+#             */
+/*   Updated: 2025/11/05 17:36:14 by gkhavari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
 
-void	ft_putstr_fd(char *s, int fd)
+t_complex	c_add(t_complex a, t_complex b)
 {
-	int	i;
-    int bytes_written;
+	t_complex	res;
 
-	if (!s)
-		return ;
-	i = 0;
-	while (s[i])
-	{
-		bytes_written = write(fd, &s[i], 1);
-        if (bytes_written == -1)
-            return ;
-		i++;
-	}
+	res.re = a.re + b.re;
+	res.im = a.im + b.im;
+	return (res);
 }
 
-t_complex c_add(t_complex a, t_complex b)
+t_complex	c_mul(t_complex a, t_complex b)
 {
-    t_complex res = {a.re + b.re, a.im + b.im};
-    return (res);
-}
+	t_complex	res;
 
-t_complex c_mul(t_complex a, t_complex b)
-{
-    t_complex res = {a.re * b.re - a.im * b.im,
-                     a.re * b.im + a.im * b.re};
-    return (res);
+	res.re = a.re * b.re - a.im * b.im;
+	res.im = a.re * b.im + a.im * b.re;
+	return (res);
 }
 
 double	ft_atof(const char *str)
 {
-    int i = 0;
-    int sign = 1;
-    double result = 0.0;
-    double frac = 0.0;
-    double divisor = 10.0;
+	int		i;
+	int		sign;
+	double	result;
+	double	frac;
+	double	divisor;
 
-    if (str[i] == '-' || str[i] == '+')
-    {
-        if (str[i] == '-')
-            sign = -1;
-        i++;
-    }
-    while (str[i] >= '0' && str[i] <= '9')
-    {
-        result = result * 10.0 + (str[i] - '0');
-        i++;
-    }
-    if (str[i] == '.')
-    {
-        i++;
-        while (str[i] >= '0' && str[i] <= '9')
-        {
-            frac += (str[i] - '0') / divisor;
-            divisor *= 10.0;
-            i++;
-        }
-    }
-   return sign * (result + frac);
+	i = 0;
+	sign = 1;
+	result = 0.0;
+	frac = 0.0;
+	divisor = 10.0;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		result = result * 10.0 + (str[i] - '0');
+		i++;
+	}
+	if (str[i] == '.')
+	{
+		i++;
+		while (str[i] >= '0' && str[i] <= '9')
+		{
+			frac += (str[i] - '0') / divisor;
+			divisor *= 10.0;
+			i++;
+		}
+	}
+	return (sign * (result + frac));
 }
 
-int ft_strcmp(const char *s1, const char *s2)
+void	ft_strtolower(char *str)
 {
-    int i = 0;
+	size_t	i;
 
-    while (s1[i] && s2[i])
-    {
-        if (s1[i] != s2[i])
-            return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-        i++;
-    }
-    return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] >= 'A' && str[i] <= 'Z')
+			str[i] = str[i] + ('a' - 'A');
+		i++;
+	}
+	str[i] = '\0';
 }
