@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "fractol.h"
+# define TO_REAL(center, range, x) (center - range / 2 + ((double)x / (WIDTH - 1)) * range) // maybe change back
 
 t_complex	pixel_to_complex(t_app_state *state, int x, int y)
 {
@@ -22,14 +23,13 @@ t_complex	pixel_to_complex(t_app_state *state, int x, int y)
 	aspect_ratio = (double)WIDTH / HEIGHT;
 	re_range = state->fractal.re_range / state->fractal.zoom;
 	im_range = re_range / aspect_ratio;
-	c.re = state->fractal.center.re - re_range / 2
-		+ ((double)x / (WIDTH - 1)) * re_range;
+	c.re = TO_REAL(state->fractal.center.re, re_range, x);
 	c.im = state->fractal.center.im + im_range / 2
 		- ((double)y / (HEIGHT - 1)) * im_range;
 	return (c);
 }
 
-static void	put_pixel(t_app_state *state, int x, int y, int color)
+void	put_pixel(t_app_state *state, int x, int y, int color)
 {
 	char	*dst;
 
@@ -40,43 +40,42 @@ static void	put_pixel(t_app_state *state, int x, int y, int color)
 	*(unsigned int *) dst = color;
 }
 
-static int	get_iteration(t_app_state state, t_complex c)
+int	get_iteration(t_app_state *state, t_complex c)
 {
 	int		fractal_type;
 	size_t	iteration;
 
 	iteration = 0;
-	fractal_type = state.fractal.fractal_type;
+	fractal_type = state->fractal.fractal_type;
 	if (fractal_type == MANDELBROT)
 		iteration = mandelbrot(c);
 	else if (fractal_type == JULIA)
-		iteration = julia(c, state.fractal.c_julia);
+		iteration = julia(c, state->fractal.c_julia);
 	else if (fractal_type == BURNINGSHIP)
 		iteration = burningship(c);
 	return (iteration);
 }
 
-void	draw_fractal(t_app_state *state)
+void draw_fractal(t_app_state *state, t_region region)
 {
-	int			x;
-	int			y;
-	int			color;
-	t_complex	c;
+    int x;
+    int y;
+    int color;
+    t_complex c;
 
-	y = 0;
-	color = 0;
-	while (y < HEIGHT)
-	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			c = pixel_to_complex(state, x, y);
-			color = get_color(*state, get_iteration(*state, c));
-			put_pixel(state, x, y, color);
-			x++;
-		}
-		y++;
-	}
+    y = region.start_y;
+    while (y < region.end_y)
+    {
+        x = region.start_x;
+        while (x < region.end_x)
+        {
+            c = pixel_to_complex(state, x, y);
+            color = get_color(state, get_iteration(state, c));
+            put_pixel(state, x, y, color);
+            x++;
+        }
+        y++;
+    }
 	mlx_put_image_to_window((*state).mlx, (*state).win,
 		(*state).image.img, 0, 0);
 }

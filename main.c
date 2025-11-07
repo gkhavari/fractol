@@ -83,13 +83,15 @@ int	main(int argc, char **argv)
 {
 	t_app_state	state;
 	char		**input;
-
+	
+	if (argc == 1)
+		input_info(argc, argv);
 	ft_strtolower(argv[1]);
 	input_info(argc, argv);
 	input = &argv[1];
 	init_window(*input, &state);
 	init_fractal(input, &state);
-	draw_fractal(&state);
+	draw_fractal(&state, FULL_REGION);
 	mlx_key_hook(state.win, key_event, &state);
 	mlx_mouse_hook(state.win, mouse_event, &state);
 	mlx_hook(state.win, 17, 0, destroy_event, &state);

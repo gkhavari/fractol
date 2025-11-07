@@ -71,17 +71,17 @@ static int	cosmic_color(size_t iteration, size_t max_iter)
 	return ((r << 16) | (g << 8) | b);
 }
 
-int	get_color(t_app_state state, size_t iteration)
+int	get_color(t_app_state *state, size_t iteration)
 {
 	int	color;
 	size_t max_iter;
 
 	max_iter = MAX_ITER;
-	if (state.fractal.color_scheme == COSMIC)
+	if (state->fractal.color_scheme == COSMIC)
 		color = cosmic_color(iteration, max_iter);
-	else if (state.fractal.color_scheme == FIRE)
+	else if (state->fractal.color_scheme == FIRE)
 		color = fire_color(iteration, max_iter);
-	else if (state.fractal.color_scheme == TRIPPY)
+	else if (state->fractal.color_scheme == TRIPPY)
 		color = trippy_color(iteration, max_iter);
 	else
 		color = 0x000000;

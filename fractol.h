@@ -18,10 +18,11 @@
 # include <math.h>
 # include <unistd.h>
 # include <stdio.h> //remember to take out
+# include <string.h> //remember to take out
 
 # define WIDTH  1920
 # define HEIGHT 1080
-# define MAX_ITER 1000
+# define MAX_ITER 100
 # define ZOOM_FACTOR 1.2
 # define PAN_FRACTION 0.05
 # define M_PI 3.14159265358979323846
@@ -57,6 +58,15 @@
 # define CENTER_RE_BURNINGSHIP -0.5
 # define CENTER_IM_BURNINGSHIP -0.75
 # define RE_RANGE_BURNINGSHIP 4.5
+
+# define FULL_REGION (t_region){0, 0, WIDTH, HEIGHT}
+
+typedef struct s_region {
+	int start_x;
+	int start_y;
+	int end_x;
+	int end_y;
+}	t_region;
 
 typedef struct s_complex
 {
@@ -99,9 +109,9 @@ double		ft_atof(const char *str);
 void		init_window(char *titel, t_app_state *state);
 void		init_fractal(char **input, t_app_state *state);
 void		set_fractal_range(t_app_state *state);
-void		draw_fractal(t_app_state *state);
-t_complex	pixel_to_complex(t_app_state *env, int x, int y);
-int			get_color(t_app_state state, size_t iteration);
+void		draw_fractal(t_app_state *state, t_region region);
+t_complex	pixel_to_complex(t_app_state *state, int x, int y);
+int			get_color(t_app_state *state, size_t iteration);
 size_t		mandelbrot(t_complex c);
 size_t		julia(t_complex z, t_complex c);
 size_t		burningship(t_complex c);
@@ -110,5 +120,6 @@ t_complex	c_add(t_complex a, t_complex b);
 int			key_event(int key, t_app_state *state);
 int			mouse_event(int key, int x, int y, t_app_state *state);
 int			destroy_event(t_app_state *state);
+void		*ft_memmove(void *dest, const void *src, size_t len);
 
 #endif
