@@ -1,10 +1,10 @@
 NAME    = fractol
 
-SRCS    = main.c init.c utils.c utils_libft.c event_handler.c draw_fractal.c fractals.c color.c
+SRCS    = main.c init.c ft_atof.c utils.c utils_libft.c utils_coords.c event_handler.c events.c draw_fractal.c fractals.c color.c handle_panning.c shift_image.c
 OBJS    = $(SRCS:.c=.o)
 
 CC      = cc
-CFLAGS  = -Wall -Wextra -Werror -O3
+CFLAGS  = -Wall -Wextra -Werror -O3 -g
 
 MLX_DIR = minilibx-linux
 MLX     = -L$(MLX_DIR) -lmlx_Linux
