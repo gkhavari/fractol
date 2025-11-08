@@ -23,8 +23,8 @@ static int	trippy_color(size_t iteration, size_t max_iter)
 		return (0x000000);
 	t = (double)iteration / (double)max_iter;
 	r = (int)(127.5 * (1 + sin(6.2831 * t + 0.0)));
-	g = (int)(127.5 * (1 + sin(6.2831 * t + 2.094))); // 120°
-	b = (int)(127.5 * (1 + sin(6.2831 * t + 4.188))); // 240°
+	g = (int)(127.5 * (1 + sin(6.2831 * t + 2.094)));
+	b = (int)(127.5 * (1 + sin(6.2831 * t + 4.188)));
 	return ((r << 16) | (g << 8) | b);
 }
 
@@ -37,7 +37,7 @@ static int	fire_color(size_t iteration, size_t max_iter)
 
 	if (iteration >= max_iter)
 		return (0x000000);
-    t = pow((double)iteration / (double)max_iter, 0.5); // gamma correction for smoother brightness
+	t = pow((double)iteration / (double)max_iter, 0.5);
 	r = (int)(255 * fmin(1.0, 3.0 * t));
 	g = (int)(255 * fmin(1.0, 3.0 * (t - 0.3)));
 	b = (int)(255 * fmin(1.0, 3.0 * (t - 0.6)));
@@ -50,31 +50,30 @@ static int	fire_color(size_t iteration, size_t max_iter)
 
 static int	cosmic_color(size_t iteration, size_t max_iter)
 {
-	double t;
-	int r, g, b;
+	double	t;
+	int		r;
+	int		g;
+	int		b;
 
 	if (iteration >= max_iter)
-		return (0x000000); // black for points inside the set
-
-	t = (double)iteration / max_iter; // normalized [0,1]
-
-	// Create a purplish-space gradient
-	r = (int)(9 * (1 - t) * t * t * t * 255);     // low red, bright at medium t
-	g = (int)(15 * (1 - t) * (1 - t) * t * t * 255); // subtle green
-	b = (int)(8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255); // dominant blue/purple
-
-	// Clamp values just in case
-	if (r > 255) r = 255;
-	if (g > 255) g = 255;
-	if (b > 255) b = 255;
-
+		return (0x000000);
+	t = (double)iteration / max_iter;
+	r = (int)(9 * (1 - t) * t * t * t * 255);
+	g = (int)(15 * (1 - t) * (1 - t) * t * t * 255);
+	b = (int)(8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255);
+	if (r > 255)
+		r = 255;
+	if (g > 255)
+		g = 255;
+	if (b > 255)
+		b = 255;
 	return ((r << 16) | (g << 8) | b);
 }
 
 int	get_color(t_app_state *state, size_t iteration)
 {
-	int	color;
-	size_t max_iter;
+	int		color;
+	size_t	max_iter;
 
 	max_iter = MAX_ITER;
 	if (state->fractal.color_scheme == COSMIC)

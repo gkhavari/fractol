@@ -20,9 +20,9 @@
 # include <stdio.h> //remember to take out
 # include <string.h> //remember to take out
 
-# define WIDTH  1920
-# define HEIGHT 1080
-# define MAX_ITER 100
+# define WIDTH  400
+# define HEIGHT 400
+# define MAX_ITER 1000
 # define ZOOM_FACTOR 1.2
 # define PAN_FRACTION 0.05
 # define M_PI 3.14159265358979323846
@@ -59,13 +59,12 @@
 # define CENTER_IM_BURNINGSHIP -0.75
 # define RE_RANGE_BURNINGSHIP 4.5
 
-# define FULL_REGION (t_region){0, 0, WIDTH, HEIGHT}
-
-typedef struct s_region {
-	int start_x;
-	int start_y;
-	int end_x;
-	int end_y;
+typedef struct s_region
+{
+	int	start_x;
+	int	start_y;
+	int	end_x;
+	int	end_y;
 }	t_region;
 
 typedef struct s_complex
@@ -121,5 +120,13 @@ int			key_event(int key, t_app_state *state);
 int			mouse_event(int key, int x, int y, t_app_state *state);
 int			destroy_event(t_app_state *state);
 void		*ft_memmove(void *dest, const void *src, size_t len);
+void		handle_panning(int key, t_app_state *state);
+t_region	set_region(int x_min, int x_max, int y_min, int y_max);
+void		change_color(t_app_state *state);
+void		reset_coord(t_app_state *state);
+void		zoom_on_mouse(t_app_state *env, int mouse_x,
+				int mouse_y, double zoom_factor);
+int			destroy_event(t_app_state *state);
+void		shift_image(t_app_state *state, int shift_x, int shift_y);
 
 #endif

@@ -83,7 +83,8 @@ int	main(int argc, char **argv)
 {
 	t_app_state	state;
 	char		**input;
-	
+	t_region	full_region;
+
 	if (argc == 1)
 		input_info(argc, argv);
 	ft_strtolower(argv[1]);
@@ -91,7 +92,8 @@ int	main(int argc, char **argv)
 	input = &argv[1];
 	init_window(*input, &state);
 	init_fractal(input, &state);
-	draw_fractal(&state, FULL_REGION);
+	full_region = set_region(0, WIDTH, 0, HEIGHT);
+	draw_fractal(&state, full_region);
 	mlx_key_hook(state.win, key_event, &state);
 	mlx_mouse_hook(state.win, mouse_event, &state);
 	mlx_hook(state.win, 17, 0, destroy_event, &state);
