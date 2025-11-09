@@ -4,20 +4,17 @@ SRCS    = main.c init.c ft_atof.c utils.c utils_libft.c utils_coords.c event_han
 OBJS    = $(SRCS:.c=.o)
 
 CC      = cc
-CFLAGS  = -Wall -Wextra -Werror -O3 -g
+CFLAGS  = -Wall -Wextra -Werror -O3
 
-MLX_DIR = minilibx-linux
-MLX     = -L$(MLX_DIR) -lmlx_Linux
-MLX_INC = -I$(MLX_DIR)
-MLX_LIBS= -lXext -lX11 -lm -lz
+MLX_LIBS= -lXext -lX11 -lm -lz -lmlx
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) $(MLX) $(MLX_LIBS) -o $(NAME)
+	$(CC) $(OBJS) $(MLX_LIBS) -o $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) $(MLX_INC) -I/usr/include -c $< -o $@
+	$(CC) $(CFLAGS) -I/usr/include -c $< -o $@
 
 clean:
 	rm -f $(OBJS)

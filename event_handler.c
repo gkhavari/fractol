@@ -12,39 +12,41 @@
 
 #include "fractol.h"
 
-int	key_event(int key, t_app_state *state)
+static void	redraw_full_fractal(t_app_state *state)
 {
 	t_region	full_region;
 
 	full_region = set_region(0, WIDTH, 0, HEIGHT);
+	draw_fractal(state, full_region);
+}
+
+int	key_event(int key, t_app_state *state)
+{
 	if (key == KEY_ESC)
 		destroy_event(state);
-	if (key == KEY_C)
+	else if (key == KEY_C)
 		change_color(state);
-	if (key == KEY_R)
+	else if (key == KEY_R)
 		reset_coord(state);
-	if (key == KEY_PLUS1 || key == KEY_PLUS2)
+	else if (key == KEY_PLUS1 || key == KEY_PLUS2)
 		state->fractal.zoom *= ZOOM_FACTOR;
-	if (key == KEY_MINUS1 || key == KEY_MINUS2)
+	else if (key == KEY_MINUS1 || key == KEY_MINUS2)
 		state->fractal.zoom /= ZOOM_FACTOR;
-	if (key == KEY_LEFT || key == KEY_RIGHT || key == KEY_UP || key == KEY_DOWN)
-	{
-		handle_panning(key, state);
-		return (0);
-	}
-	draw_fractal(state, full_region);
+	else if (key == KEY_LEFT || key == KEY_RIGHT
+		|| key == KEY_UP || key == KEY_DOWN)
+		return (handle_panning(key, state), 0);
+	redraw_full_fractal(state);
 	return (0);
 }
 
 int	mouse_event(int key, int x, int y, t_app_state *state)
 {
-	t_region	full_region;
-
-	if (key == 4)
+	if (key == MOUSE_SCROLL_UP)
 		zoom_on_mouse(state, x, y, 1 / ZOOM_FACTOR);
-	else if (key == 5)
+	else if (key == MOUSE_SCROLL_DOWN)
 		zoom_on_mouse(state, x, y, ZOOM_FACTOR);
-	full_region = set_region(0, WIDTH, 0, HEIGHT);
-	draw_fractal(state, full_region);
+	else if (key == 1)
+		change_center(state, x, y);
+	redraw_full_fractal(state);
 	return (0);
 }

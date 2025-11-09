@@ -12,6 +12,9 @@
 
 #include "fractol.h"
 
+/*sin goes from -1 to 1 (1 + sin) goes from 0 to 2 
+multiplied by 127.5 goes from 0 to 255 for RGB colors
+Phase shift r, g, b so that they peak at different times*/
 static int	trippy_color(size_t iteration, size_t max_iter)
 {
 	double	t;
@@ -22,12 +25,16 @@ static int	trippy_color(size_t iteration, size_t max_iter)
 	if (iteration >= max_iter)
 		return (0x000000);
 	t = (double)iteration / (double)max_iter;
-	r = (int)(127.5 * (1 + sin(6.2831 * t + 0.0)));
-	g = (int)(127.5 * (1 + sin(6.2831 * t + 2.094)));
-	b = (int)(127.5 * (1 + sin(6.2831 * t + 4.188)));
+	r = (int)(127.5 * (1 + sin(2 * M_PI * t)));
+	g = (int)(127.5 * (1 + sin(2 * M_PI * t + 2 * M_PI / 3)));
+	b = (int)(127.5 * (1 + sin(2 * M_PI * t + 4 * M_PI / 3)));
 	return ((r << 16) | (g << 8) | b);
 }
 
+/*square root, grows fast in the beginning and slower later
+Early iterations → mostly red.
+Mid iterations → red + green (orange/yellow).
+Late iterations → red + green + blue (white-hot).*/
 static int	fire_color(size_t iteration, size_t max_iter)
 {
 	double	t;
@@ -48,6 +55,7 @@ static int	fire_color(size_t iteration, size_t max_iter)
 	return ((r << 16) | (g << 8) | b);
 }
 
+/*Calculate with a polynomial */
 static int	cosmic_color(size_t iteration, size_t max_iter)
 {
 	double	t;
@@ -60,7 +68,7 @@ static int	cosmic_color(size_t iteration, size_t max_iter)
 	t = (double)iteration / max_iter;
 	r = (int)(9 * (1 - t) * t * t * t * 255);
 	g = (int)(15 * (1 - t) * (1 - t) * t * t * 255);
-	b = (int)(8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255);
+	b = (int)(9 * (1 - t) * (1 - t) * (1 - t) * t * 255);
 	if (r > 255)
 		r = 255;
 	if (g > 255)

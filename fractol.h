@@ -17,12 +17,11 @@
 # include <stdlib.h>
 # include <math.h>
 # include <unistd.h>
-# include <stdio.h> //remember to take out
-# include <string.h> //remember to take out
 
-# define WIDTH  400
-# define HEIGHT 400
+# define WIDTH  800
+# define HEIGHT 800
 # define MAX_ITER 1000
+# define ESCAPE_RADIUS_SQUARED 4.0
 # define ZOOM_FACTOR 1.2
 # define PAN_FRACTION 0.05
 # define M_PI 3.14159265358979323846
@@ -38,6 +37,8 @@
 # define KEY_UP 65362
 # define KEY_RIGHT 65363
 # define KEY_DOWN 65364
+# define MOUSE_SCROLL_UP 4
+# define MOUSE_SCROLL_DOWN 5
 
 # define MANDELBROT 1
 # define JULIA 2
@@ -55,9 +56,9 @@
 # define CENTER_IM_JULIA 0.0
 # define RE_RANGE_JULIA 4.0
 
-# define CENTER_RE_BURNINGSHIP -0.5
-# define CENTER_IM_BURNINGSHIP -0.75
-# define RE_RANGE_BURNINGSHIP 4.5
+# define CENTER_RE_BURNINGSHIP -1.7
+# define CENTER_IM_BURNINGSHIP 0.03
+# define RE_RANGE_BURNINGSHIP 0.3
 
 typedef struct s_region
 {
@@ -104,12 +105,12 @@ typedef struct s_app_state
 void		ft_strtolower(char *str);
 int			ft_strcmp(const char *s1, const char *s2);
 void		ft_putstr_fd(char *s, int fd);
-double		ft_atof(const char *str);
-void		init_window(char *titel, t_app_state *state);
+double		ft_atod(const char *str);
+void		init_window(char *title, t_app_state *state);
 void		init_fractal(char **input, t_app_state *state);
 void		set_fractal_range(t_app_state *state);
 void		draw_fractal(t_app_state *state, t_region region);
-t_complex	pixel_to_complex(t_app_state *state, int x, int y);
+t_complex	pixel_to_complex(const t_app_state *state, int x, int y);
 int			get_color(t_app_state *state, size_t iteration);
 size_t		mandelbrot(t_complex c);
 size_t		julia(t_complex z, t_complex c);
@@ -128,5 +129,6 @@ void		zoom_on_mouse(t_app_state *env, int mouse_x,
 				int mouse_y, double zoom_factor);
 int			destroy_event(t_app_state *state);
 void		shift_image(t_app_state *state, int shift_x, int shift_y);
+void		change_center(t_app_state *state, int mouse_x, int mouse_y);
 
 #endif

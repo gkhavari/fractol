@@ -62,20 +62,20 @@ void	init_fractal(char **input, t_app_state *state)
 	}
 	else
 	{
-		state->fractal.c_julia.re = ft_atof(input[1]);
-		state->fractal.c_julia.im = ft_atof(input[2]);
+		state->fractal.c_julia.re = ft_atod(input[1]);
+		state->fractal.c_julia.im = ft_atod(input[2]);
 	}
 	set_fractal_range(state);
 }
 
-void	init_window(char *titel, t_app_state *state)
+void	init_window(char *title, t_app_state *state)
 {
 	void	*mlx;
 	void	*mlx_win;
 	t_img	mlx_img;
 
 	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, WIDTH, HEIGHT, titel);
+	mlx_win = mlx_new_window(mlx, WIDTH, HEIGHT, title);
 	mlx_img.img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	mlx_img.addr = mlx_get_data_addr(mlx_img.img,
 			&mlx_img.bits_per_pixel, &mlx_img.line_length, &mlx_img.endian);

@@ -25,7 +25,14 @@ void	reset_coord(t_app_state *state)
 	set_fractal_range(state);
 }
 
-void	zoom_on_mouse(t_app_state *env,
+/*GOAL: Mouse pointer points at the same position 
+on the complex plane before and after zooming
+
+set re_range and im_range to zoomed values
+new center = mouse_position - offset 
+(+offset for imaginary because it faces down)
+offset ((x or y)/(WIDTH or HEIGHT) - 0.5) * range // 0.5 is center*/
+void	zoom_on_mouse(t_app_state *state,
 	int mouse_x, int mouse_y, double zoom_factor)
 {
 	t_complex	mouse_pos;
@@ -33,14 +40,21 @@ void	zoom_on_mouse(t_app_state *env,
 	double		im_range;
 
 	aspect_ratio = (double)HEIGHT / WIDTH;
-	im_range = env->fractal.re_range * aspect_ratio;
-	mouse_pos = pixel_to_complex(env, mouse_x, mouse_y);
-	env->fractal.re_range *= zoom_factor;
-	im_range = env->fractal.re_range * aspect_ratio;
-	env->fractal.center.re = mouse_pos.re
-		- ((double)mouse_x / WIDTH - 0.5) * env->fractal.re_range;
-	env->fractal.center.im = mouse_pos.im
+	mouse_pos = pixel_to_complex(state, mouse_x, mouse_y);
+	state->fractal.re_range *= zoom_factor;
+	im_range = state->fractal.re_range * aspect_ratio;
+	state->fractal.center.re = mouse_pos.re
+		- ((double)mouse_x / WIDTH - 0.5) * state->fractal.re_range;
+	state->fractal.center.im = mouse_pos.im
 		+ ((double)mouse_y / HEIGHT - 0.5) * im_range;
+}
+
+void	change_center(t_app_state *state, int mouse_x, int mouse_y)
+{
+	t_complex	mouse_pos;
+
+	mouse_pos = pixel_to_complex(state, mouse_x, mouse_y);
+	state->fractal.center = mouse_pos;
 }
 
 int	destroy_event(t_app_state *state)

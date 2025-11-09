@@ -35,7 +35,7 @@ static int	is_valid_julia_arg(char *str)
 		return (0);
 	if (str[i] != '\0')
 		return (0);
-	if (ft_atof(str) < -2.0 || ft_atof(str) > 2.0)
+	if (ft_atod(str) < -2.0 || ft_atod(str) > 2.0)
 		return (0);
 	return (1);
 }

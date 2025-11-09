@@ -12,6 +12,11 @@
 
 #include "fractol.h"
 
+/*positiv shift, we are going down but moving image up
+destination: start of image addr, source: what should still be visible
+negativ shift, we are going up but moving image down
+destination: where the pixles should start appear, source: start of the pointer
+size is the size of the cropped picture*/
 static void	shift_image_vertically(t_app_state *state, int shift_y)
 {
 	int		line_bytes;
@@ -31,6 +36,8 @@ static void	shift_image_vertically(t_app_state *state, int shift_y)
 			img_size + shift_y * line_bytes);
 }
 
+/*pos shift_x we are going right but moving image left
+neg shift_x we are going left but moving image right*/
 static void	shift_row_horizontally(char *row, int line_bytes,
 		int bpp, int shift_x)
 {
@@ -46,6 +53,7 @@ static void	shift_row_horizontally(char *row, int line_bytes,
 			line_bytes + shift_x * bpp);
 }
 
+/*loops through every row*/
 static void	shift_image_horizontally(t_app_state *state, int shift_x)
 {
 	int		bpp;
