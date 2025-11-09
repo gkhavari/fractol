@@ -12,7 +12,7 @@
 
 #include "fractol.h"
 
-t_region	set_region(x_min, x_max, y_min, y_max)
+t_region	set_region(int x_min, int x_max, int y_min, int y_max)
 {
 	t_region	region;
 

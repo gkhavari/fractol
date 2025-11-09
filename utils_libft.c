@@ -77,3 +77,17 @@ void	*ft_memmove(void *dest, const void *src, size_t len)
 	else
 		return (normal_copy((char *)dest, (char *)src, len));
 }
+
+void	ft_bzero(void *s, size_t n)
+{
+	size_t	i;
+	unsigned char	*ptr;
+
+	ptr = (unsigned char *)s;
+	i = 0;
+	while (i < n)
+	{
+		ptr[i] = 0;
+		i++;
+	}
+}

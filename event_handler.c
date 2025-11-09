@@ -23,7 +23,7 @@ static void	redraw_full_fractal(t_app_state *state)
 int	key_event(int key, t_app_state *state)
 {
 	if (key == KEY_ESC)
-		destroy_event(state);
+		destroy_event(state, EXIT_SUCCESS);
 	else if (key == KEY_C)
 		change_color(state);
 	else if (key == KEY_R)
@@ -45,7 +45,7 @@ int	mouse_event(int key, int x, int y, t_app_state *state)
 		zoom_on_mouse(state, x, y, 1 / ZOOM_FACTOR);
 	else if (key == MOUSE_SCROLL_DOWN)
 		zoom_on_mouse(state, x, y, ZOOM_FACTOR);
-	else if (key == 1)
+	else if (key == LEFT_CLICK)
 		change_center(state, x, y);
 	redraw_full_fractal(state);
 	return (0);

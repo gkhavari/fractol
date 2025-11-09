@@ -57,7 +57,7 @@ void	change_center(t_app_state *state, int mouse_x, int mouse_y)
 	state->fractal.center = mouse_pos;
 }
 
-int	destroy_event(t_app_state *state)
+int	destroy_event(t_app_state *state, int exit_status)
 {
 	if (state->image.img)
 		mlx_destroy_image(state->mlx, state->image.img);
@@ -66,5 +66,11 @@ int	destroy_event(t_app_state *state)
 	if (state->mlx)
 		mlx_destroy_display(state->mlx);
 	free(state->mlx);
-	exit(EXIT_SUCCESS);
+	exit(exit_status);
+}
+
+int	destroy_event_wrapper(t_app_state *state)
+{
+	destroy_event(state, EXIT_SUCCESS);
+	return (0);
 }

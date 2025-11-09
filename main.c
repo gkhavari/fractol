@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "fractol.h"
+#include "float.h"
+#include "stdio.h"
 
 static int	is_valid_julia_arg(char *str)
 {
@@ -74,7 +76,6 @@ static void	input_info(int argc, char **argv)
 		ft_putstr_fd("  ./fractol julia <real> <imag> (range -2 to 2)\n",
 			2);
 		ft_putstr_fd("  ./fractol burningship\n", 2);
-		ft_putstr_fd("  ./fractol tricorn\n", 2);
 		exit(EXIT_SUCCESS);
 	}
 }
@@ -96,7 +97,7 @@ int	main(int argc, char **argv)
 	draw_fractal(&state, full_region);
 	mlx_key_hook(state.win, key_event, &state);
 	mlx_mouse_hook(state.win, mouse_event, &state);
-	mlx_hook(state.win, 17, 0, destroy_event, &state);
+	mlx_hook(state.win, 17, 0, destroy_event_wrapper, &state);
 	mlx_loop(state.mlx);
 	return (0);
 }

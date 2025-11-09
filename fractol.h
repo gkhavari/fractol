@@ -26,6 +26,9 @@
 # define PAN_FRACTION 0.05
 # define M_PI 3.14159265358979323846
 
+# define EXIT_SUCCESS 0
+# define EXIT_FAILURE 1
+
 # define KEY_ESC 65307
 # define KEY_C 99
 # define KEY_R 114
@@ -37,6 +40,7 @@
 # define KEY_UP 65362
 # define KEY_RIGHT 65363
 # define KEY_DOWN 65364
+# define LEFT_CLICK 1
 # define MOUSE_SCROLL_UP 4
 # define MOUSE_SCROLL_DOWN 5
 
@@ -119,7 +123,6 @@ t_complex	c_mul(t_complex a, t_complex b);
 t_complex	c_add(t_complex a, t_complex b);
 int			key_event(int key, t_app_state *state);
 int			mouse_event(int key, int x, int y, t_app_state *state);
-int			destroy_event(t_app_state *state);
 void		*ft_memmove(void *dest, const void *src, size_t len);
 void		handle_panning(int key, t_app_state *state);
 t_region	set_region(int x_min, int x_max, int y_min, int y_max);
@@ -127,8 +130,10 @@ void		change_color(t_app_state *state);
 void		reset_coord(t_app_state *state);
 void		zoom_on_mouse(t_app_state *env, int mouse_x,
 				int mouse_y, double zoom_factor);
-int			destroy_event(t_app_state *state);
+int			destroy_event(t_app_state *state, int exit_status);
 void		shift_image(t_app_state *state, int shift_x, int shift_y);
 void		change_center(t_app_state *state, int mouse_x, int mouse_y);
+void		ft_bzero(void *s, size_t n);
+int			destroy_event_wrapper(t_app_state *state);
 
 #endif

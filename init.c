@@ -55,12 +55,7 @@ void	init_fractal(char **input, t_app_state *state)
 	state->fractal.color_scheme = FIRE;
 	state->fractal.max_iter = MAX_ITER;
 	state->fractal.zoom = 1.0;
-	if (state->fractal.fractal_type != JULIA)
-	{
-		state->fractal.c_julia.re = 0.0;
-		state->fractal.c_julia.im = 0.0;
-	}
-	else
+	if (state->fractal.fractal_type == JULIA)
 	{
 		state->fractal.c_julia.re = ft_atod(input[1]);
 		state->fractal.c_julia.im = ft_atod(input[2]);
@@ -70,16 +65,18 @@ void	init_fractal(char **input, t_app_state *state)
 
 void	init_window(char *title, t_app_state *state)
 {
-	void	*mlx;
-	void	*mlx_win;
-	t_img	mlx_img;
-
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, WIDTH, HEIGHT, title);
-	mlx_img.img = mlx_new_image(mlx, WIDTH, HEIGHT);
-	mlx_img.addr = mlx_get_data_addr(mlx_img.img,
-			&mlx_img.bits_per_pixel, &mlx_img.line_length, &mlx_img.endian);
-	state->mlx = mlx;
-	state->win = mlx_win;
-	state->image = mlx_img;
+	ft_bzero(state, sizeof(*state));
+	state->mlx = mlx_init();
+	if (!state->mlx)
+		destroy_event(state, EXIT_FAILURE);
+	state->win = mlx_new_window(state->mlx, WIDTH, HEIGHT, title);
+	if (!state->win)
+		destroy_event(state, EXIT_FAILURE);
+	state->image.img = mlx_new_image(state->mlx, WIDTH, HEIGHT);
+	if (!state->image.img)
+		destroy_event(state, EXIT_FAILURE);
+	state->image.addr = mlx_get_data_addr(state->image.img,
+			&state->image.bits_per_pixel, &state->image.line_length, &state->image.endian);
+	if (!state->image.addr)
+		destroy_event(state, EXIT_FAILURE);
 }
