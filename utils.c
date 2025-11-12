@@ -69,5 +69,5 @@ int	is_valid_julia_arg(char *str)
 	if (str[i] != '\0' || str[i - 1] == '.')
 		return (0);
 	val = ft_atof(str);
-	return (val >= -2.0 && val <= 2.0);
+	return (!isinf(val) && val >= -2.0 && val <= 2.0);
 }

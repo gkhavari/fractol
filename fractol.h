@@ -110,36 +110,36 @@ typedef struct s_app_state
 }	t_app_state;
 
 void		ft_strtolower(char *str);
-int			ft_strcmp(const char *s1, const char *s2);
-void		ft_putstr_fd(char *s, int fd);
-double		ft_atof(const char *str);
+void		input_info(int argc, char **argv);
 void		init_window(char *title, t_app_state *state);
 void		init_fractal(char **input, t_app_state *state);
-void		set_fractal_range(t_app_state *state);
+t_region	set_region(int x_min, int x_max, int y_min, int y_max);
 void		draw_fractal(t_app_state *state, t_region region);
-t_complex	pixel_to_complex(const t_app_state *state, int x, int y);
-int			get_color(t_app_state *state, size_t iteration);
+int			key_event(int key, t_app_state *state);
+int			mouse_event(int key, int x, int y, t_app_state *state);
+int			destroy_event_wrapper(t_app_state *state);
+int			ft_strcmp(const char *s1, const char *s2);
+int			is_valid_julia_arg(char *str);
+void		ft_putstr_fd(char *s, int fd);
+double		ft_atof(const char *str);
+void		ft_bzero(void *s, size_t n);
+int			destroy_event(t_app_state *state, int exit_status);
+int			ft_isdigit(int c);
 size_t		mandelbrot(t_complex c);
 size_t		julia(t_complex z, t_complex c);
 size_t		burningship(t_complex c);
+t_complex	pixel_to_complex(const t_app_state *state, int x, int y);
+int			get_color(t_app_state *state, size_t iteration);
 t_complex	c_mul(t_complex a, t_complex b);
 t_complex	c_add(t_complex a, t_complex b);
-int			key_event(int key, t_app_state *state);
-int			mouse_event(int key, int x, int y, t_app_state *state);
-void		*ft_memmove(void *dest, const void *src, size_t len);
-void		handle_panning(int key, t_app_state *state);
-t_region	set_region(int x_min, int x_max, int y_min, int y_max);
 void		change_color(t_app_state *state);
 void		reset_coord(t_app_state *state);
 void		zoom_on_mouse(t_app_state *env, int mouse_x,
 				int mouse_y, double zoom_factor);
-int			destroy_event(t_app_state *state, int exit_status);
-void		shift_image(t_app_state *state, int shift_x, int shift_y);
 void		change_center(t_app_state *state, int mouse_x, int mouse_y);
-void		ft_bzero(void *s, size_t n);
-int			destroy_event_wrapper(t_app_state *state);
-int			is_valid_julia_arg(char *str);
-void		input_info(int argc, char **argv);
-int			ft_isdigit(int c);
+void		handle_panning(int key, t_app_state *state);
+void		set_fractal_range(t_app_state *state);
+void		shift_image(t_app_state *state, int shift_x, int shift_y);
+void		*ft_memmove(void *dest, const void *src, size_t len);
 
 #endif
