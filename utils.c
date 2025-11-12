@@ -43,3 +43,31 @@ void	ft_strtolower(char *str)
 	}
 	str[i] = '\0';
 }
+
+int	is_valid_julia_arg(char *str)
+{
+	size_t	i;
+	size_t	dot_count;
+	double	val;
+
+	i = 0;
+	dot_count = 0;
+	if (!str || str[0] == '\0')
+		return (0);
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	if (str[i] == '\0')
+		return (0);
+	while (ft_isdigit(str[i]) || str[i] == '.')
+	{
+		if (str[i] == '.')
+			dot_count++;
+		i++;
+	}
+	if (dot_count > 1)
+		return (0);
+	if (str[i] != '\0' || str[i - 1] == '.')
+		return (0);
+	val = ft_atof(str);
+	return (val >= -2.0 && val <= 2.0);
+}

@@ -31,7 +31,7 @@ t_complex	pixel_to_complex(const t_app_state *state, int x, int y)
 	double		im_range;
 
 	aspect_ratio = (double)WIDTH / HEIGHT;
-	re_range = state->fractal.re_range / state->fractal.zoom;
+	re_range = state->fractal.re_range;
 	im_range = re_range / aspect_ratio;
 	c.re = state->fractal.center.re - re_range / 2
 		+ ((double)x / (WIDTH - 1)) * re_range;

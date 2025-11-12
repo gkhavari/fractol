@@ -59,7 +59,7 @@ static double	parse_fractional_part(const char *str, int *i)
 	return (frac);
 }
 
-double	ft_atod(const char *str)
+double	ft_atof(const char *str)
 {
 	int		i;
 	int		sign;

@@ -22,7 +22,7 @@
 # define HEIGHT 800
 # define MAX_ITER 1000
 # define ESCAPE_RADIUS_SQUARED 4.0
-# define ZOOM_FACTOR 1.2
+# define ZOOM_FACTOR 0.8
 # define PAN_FRACTION 0.05
 # define M_PI 3.14159265358979323846
 
@@ -40,6 +40,10 @@
 # define KEY_UP 65362
 # define KEY_RIGHT 65363
 # define KEY_DOWN 65364
+# define KEY_A 97
+# define KEY_W 119
+# define KEY_D 100
+# define KEY_S 115
 # define LEFT_CLICK 1
 # define MOUSE_SCROLL_UP 4
 # define MOUSE_SCROLL_DOWN 5
@@ -92,7 +96,6 @@ typedef struct s_fractal
 	int			fractal_type;
 	int			color_scheme;
 	int			max_iter;
-	double		zoom;
 	t_complex	c_julia;
 	t_complex	center;
 	double		re_range;
@@ -109,7 +112,7 @@ typedef struct s_app_state
 void		ft_strtolower(char *str);
 int			ft_strcmp(const char *s1, const char *s2);
 void		ft_putstr_fd(char *s, int fd);
-double		ft_atod(const char *str);
+double		ft_atof(const char *str);
 void		init_window(char *title, t_app_state *state);
 void		init_fractal(char **input, t_app_state *state);
 void		set_fractal_range(t_app_state *state);
@@ -135,5 +138,8 @@ void		shift_image(t_app_state *state, int shift_x, int shift_y);
 void		change_center(t_app_state *state, int mouse_x, int mouse_y);
 void		ft_bzero(void *s, size_t n);
 int			destroy_event_wrapper(t_app_state *state);
+int			is_valid_julia_arg(char *str);
+void		input_info(int argc, char **argv);
+int			ft_isdigit(int c);
 
 #endif

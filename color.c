@@ -44,14 +44,10 @@ static int	fire_color(size_t iteration, size_t max_iter)
 
 	if (iteration >= max_iter)
 		return (0x000000);
-	t = pow((double)iteration / (double)max_iter, 0.5);
-	r = (int)(255 * fmin(1.0, 3.0 * t));
-	g = (int)(255 * fmin(1.0, 3.0 * (t - 0.3)));
-	b = (int)(255 * fmin(1.0, 3.0 * (t - 0.6)));
-	if (g < 0)
-		g = 0;
-	if (b < 0)
-		b = 0;
+	t = sqrt((double)iteration / (double)max_iter);
+	r = (int)(255 * fmax(0.0, fmin(1.0, 3.0 * t)));
+	g = (int)(255 * fmax(0.0, fmin(1.0, 3.0 * (t - 0.3))));
+	b = (int)(255 * fmax(0.0, fmin(1.0, 3.0 * (t - 0.6))));
 	return ((r << 16) | (g << 8) | b);
 }
 
@@ -66,15 +62,9 @@ static int	cosmic_color(size_t iteration, size_t max_iter)
 	if (iteration >= max_iter)
 		return (0x000000);
 	t = (double)iteration / max_iter;
-	r = (int)(9 * (1 - t) * t * t * t * 255);
-	g = (int)(15 * (1 - t) * (1 - t) * t * t * 255);
-	b = (int)(9 * (1 - t) * (1 - t) * (1 - t) * t * 255);
-	if (r > 255)
-		r = 255;
-	if (g > 255)
-		g = 255;
-	if (b > 255)
-		b = 255;
+	r = (int)(255 * fmin(1.0, 9 * (1 - t) * t * t * t));
+	g = (int)(255 * fmin(1.0, 15 * (1 - t) * (1 - t) * t * t));
+	b = (int)(255 * fmin(1.0, 9 * (1 - t) * (1 - t) * (1 - t) * t));
 	return ((r << 16) | (g << 8) | b);
 }
 

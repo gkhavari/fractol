@@ -14,17 +14,14 @@
 
 static void	set_fractal_type(char *input, t_app_state *state)
 {
-	t_fractal	f;
-
 	if (ft_strcmp(input, "mandelbrot") == 0)
-		f.fractal_type = MANDELBROT;
+		state->fractal.fractal_type = MANDELBROT;
 	else if (ft_strcmp(input, "julia") == 0)
-		f.fractal_type = JULIA;
+		state->fractal.fractal_type = JULIA;
 	else if (ft_strcmp(input, "burningship") == 0)
-		f.fractal_type = BURNINGSHIP;
+		state->fractal.fractal_type = BURNINGSHIP;
 	else
-		f.fractal_type = MANDELBROT;
-	state->fractal = f;
+		state->fractal.fractal_type = MANDELBROT;
 }
 
 void	set_fractal_range(t_app_state *state)
@@ -54,11 +51,10 @@ void	init_fractal(char **input, t_app_state *state)
 	set_fractal_type(input[0], state);
 	state->fractal.color_scheme = FIRE;
 	state->fractal.max_iter = MAX_ITER;
-	state->fractal.zoom = 1.0;
 	if (state->fractal.fractal_type == JULIA)
 	{
-		state->fractal.c_julia.re = ft_atod(input[1]);
-		state->fractal.c_julia.im = ft_atod(input[2]);
+		state->fractal.c_julia.re = ft_atof(input[1]);
+		state->fractal.c_julia.im = ft_atof(input[2]);
 	}
 	set_fractal_range(state);
 }
@@ -76,7 +72,8 @@ void	init_window(char *title, t_app_state *state)
 	if (!state->image.img)
 		destroy_event(state, EXIT_FAILURE);
 	state->image.addr = mlx_get_data_addr(state->image.img,
-			&state->image.bits_per_pixel, &state->image.line_length, &state->image.endian);
+			&state->image.bits_per_pixel, &state->image.line_length,
+			&state->image.endian);
 	if (!state->image.addr)
 		destroy_event(state, EXIT_FAILURE);
 }

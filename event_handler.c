@@ -29,11 +29,13 @@ int	key_event(int key, t_app_state *state)
 	else if (key == KEY_R)
 		reset_coord(state);
 	else if (key == KEY_PLUS1 || key == KEY_PLUS2)
-		state->fractal.zoom *= ZOOM_FACTOR;
+		state->fractal.re_range *= ZOOM_FACTOR;
 	else if (key == KEY_MINUS1 || key == KEY_MINUS2)
-		state->fractal.zoom /= ZOOM_FACTOR;
+		state->fractal.re_range /= ZOOM_FACTOR;
 	else if (key == KEY_LEFT || key == KEY_RIGHT
-		|| key == KEY_UP || key == KEY_DOWN)
+		|| key == KEY_UP || key == KEY_DOWN
+		|| key == KEY_A || key == KEY_D
+		|| key == KEY_W || key == KEY_S)
 		return (handle_panning(key, state), 0);
 	redraw_full_fractal(state);
 	return (0);
@@ -42,9 +44,9 @@ int	key_event(int key, t_app_state *state)
 int	mouse_event(int key, int x, int y, t_app_state *state)
 {
 	if (key == MOUSE_SCROLL_UP)
-		zoom_on_mouse(state, x, y, 1 / ZOOM_FACTOR);
-	else if (key == MOUSE_SCROLL_DOWN)
 		zoom_on_mouse(state, x, y, ZOOM_FACTOR);
+	else if (key == MOUSE_SCROLL_DOWN)
+		zoom_on_mouse(state, x, y, 1 / ZOOM_FACTOR);
 	else if (key == LEFT_CLICK)
 		change_center(state, x, y);
 	redraw_full_fractal(state);

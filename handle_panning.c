@@ -33,13 +33,13 @@ static void	get_shift_from_key(int key, int *shift_x, int *shift_y)
 {
 	*shift_x = 0;
 	*shift_y = 0;
-	if (key == KEY_RIGHT)
+	if (key == KEY_RIGHT || key == KEY_D)
 		*shift_x = (int)(WIDTH * PAN_FRACTION);
-	else if (key == KEY_LEFT)
+	else if (key == KEY_LEFT || key == KEY_A)
 		*shift_x = - (int)(WIDTH * PAN_FRACTION);
-	else if (key == KEY_UP)
+	else if (key == KEY_UP || key == KEY_W)
 		*shift_y = - (int)(HEIGHT * PAN_FRACTION);
-	else if (key == KEY_DOWN)
+	else if (key == KEY_DOWN || key == KEY_S)
 		*shift_y = (int)(HEIGHT * PAN_FRACTION);
 }
 
@@ -51,7 +51,7 @@ static void	update_center(t_app_state *state, int shift_x, int shift_y)
 	double		re_range;
 	double		im_range;
 
-	re_range = state->fractal.re_range / state->fractal.zoom;
+	re_range = state->fractal.re_range;
 	im_range = re_range * HEIGHT / WIDTH;
 	center_delta.re = ((double)shift_x / (WIDTH - 1)) * re_range;
 	center_delta.im = -((double)shift_y / (HEIGHT - 1)) * im_range;
